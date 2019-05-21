@@ -11,6 +11,9 @@ from datetime import date, timedelta
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from dateutil.relativedelta import *
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 
 def Move_to_s3(username,password,source,dest):
@@ -45,5 +48,14 @@ def Move_to_s3(username,password,source,dest):
     hover = ActionChains(driver).move_to_element(div_element)
     hover.perform()
     driver.find_element_by_xpath("(//awsui-button[@class='awsui-util-f-r primary-button'])[position()=1]").click()
-    time.sleep(5)
-    driver.quit()
+    time.sleep(2)
+    ref=driver.find_element_by_xpath("//div[@class='operation-progress-bar active-fill']")
+    t=True
+    while t:
+        try:
+            ref.click()
+            t=True
+        except:
+            t=False
+            driver.quit()
+
